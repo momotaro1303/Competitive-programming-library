@@ -1,5 +1,5 @@
 //素因数分解(O(sqrt(n))
-/*map<ll, ll> prime = prime_factor(M)のように宣言
+/*map<ll, ll> prime = prime_fact(M)のように宣言
     for (auto itr : prime) {
         ll n1=itr.first;
         ll n2=itr.second;
