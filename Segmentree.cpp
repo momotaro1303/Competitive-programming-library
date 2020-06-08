@@ -1,6 +1,7 @@
 //セグメント木
 /*addは[a,b)にxを加算する sumは[a,b)の和を計算する
-add(a,b,x,0,0,N) sum(a,b,0,0,N)のように呼ぶ
+add(a,b,x,0,0,N) sum(a,b,0,0,N)のように呼ぶ　
+初期化for(ll i=0; i<N; i++) add(i,i+1,A[i],0,0,N); を忘れずに!
 どちらもO(logn)
 */
 const ll max_n=1<<17;
