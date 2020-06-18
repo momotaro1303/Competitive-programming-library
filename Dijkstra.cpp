@@ -4,7 +4,7 @@
 struct edge{ll to,cost;};
 ll V; 
 vector<edge> G[MAX_V];
-ll d[MAX_V]
+ll d[MAX_V];
 void dijkstra(ll s){
     priority_queue<P,vector<P>,greater<P> > que;
     fill(d,d+V,INF);
