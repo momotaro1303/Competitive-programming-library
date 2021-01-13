@@ -9,7 +9,7 @@ void init(ll n){
 	for(ll i=0; i<n; i++){
 		par[i]=i;
 		rnk[i]=0;
-		siz[i]=0;
+		siz[i]=1;
 	}
 }
 ll find(ll x){
