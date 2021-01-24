@@ -1,4 +1,7 @@
 //コンビネーション
+/*
+MAXの初期化はconstつける
+*/
 ll fac[MAX], finv[MAX], inv[MAX];
 void COMinit() {
     fac[0] = fac[1] = 1;
