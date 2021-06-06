@@ -1,7 +1,7 @@
 //エラトステネスの篩
 /*
 計算量はO(nloglogn)程度
-ll prime[1000005]はi番目の素数
+ll prime[1000005]はi番目の素数 (0オリジン)
 is_prime[i]がtrueならiが素数
 sieve(ll n)はn以下の素数の数を返す
 */
