@@ -1,7 +1,7 @@
-// modll: mod 計算を ll を扱うように扱える構造体
+// modint: mod 計算をint型を扱うように扱える構造体
 /* mint a=5; mint b=3;のように使う。c++14以上でしか使えない
 */
-template<ll mod> struct Fp {
+template<int mod> struct Fp {
     long long val;
     constexpr Fp(long long v = 0) noexcept : val(v % mod) {
         if (val < 0) val += mod;
