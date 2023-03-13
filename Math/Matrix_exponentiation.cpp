@@ -1,9 +1,9 @@
+//行列累乗
 /*
 フィボナッチ数列での例
-//フィボナッチ数列の行列累乗
 mat m(2, vector<ll>(2));
 m[0][0] = m[0][1] = m[1][0] = 1;　m[1][1] = 0;
-//行列mをn乗する
+行列mをn乗する
 m = mat_pow(m, n);
 */
 #define mat vector<vector<ll>>
