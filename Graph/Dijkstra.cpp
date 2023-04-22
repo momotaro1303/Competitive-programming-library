@@ -9,13 +9,13 @@ vector<edge> G[MAX_V];
 ll d[MAX_V];
 ll pre[MAX_V];
 void dijkstra(ll s){
-    priority_queue<P,vector<P>,greater<P> > que;
+    priority_queue<PP,vector<PP>,greater<PP> > que;
     fill(d,d+N,INF);
     fill(pre,pre+N,-1);
     d[s]=0;
-    que.push(P(0,s));
+    que.push(PP(0,s));
     while(!que.empty()){
-        P p=que.top(); que.pop();
+        PP p=que.top(); que.pop();
         ll v=p.second;
         if(d[v]<p.first) continue;
         for(ll i=0; i<G[v].size(); i++){
@@ -23,7 +23,7 @@ void dijkstra(ll s){
             if(d[e.to]>d[v]+e.cost){
                 d[e.to]=d[v]+e.cost;
                 pre[e.to]=v;
-                que.push(P(d[e.to],e.to));
+                que.push(PP(d[e.to],e.to));
             }
         }
     }
