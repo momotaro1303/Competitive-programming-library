@@ -4,7 +4,8 @@
 頂点tへの経路復元はvector<ll> v=get_path(t);
 */
 struct edge{ll to,cost;};
-ll V; 
+ll V;
+const ll MAX_V=2005;
 vector<edge> G[MAX_V];
 ll d[MAX_V];
 ll pre[MAX_V];
