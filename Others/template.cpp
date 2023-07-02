@@ -19,7 +19,7 @@ const ll mod=998244353,INF=mod*mod*3;
 #define debug(x,y) cout<<x<<" "<<y<<endl;
 #define add(x,y) (x=(x+y)%mod)
 #define sub(x,y) (x=(x-y+mod)%mod)
-#define mult(x,y) (x=(x*y)%mod)
+#define mult(x,y) (x=((x)*(y))%mod)
 // 変換
 char ltocl(ll x) { return char('a' + x); }// ll -> char (alphabet lower case)
 char ltocn(ll x) { return char('0' + x); }// ll -> char (number)
@@ -96,6 +96,10 @@ else return gcd(a%b,b);
 
 ライブラリチェッカー
 //https://judge.yosupo.jp
+標準ライブラリ使い方
+//https://qiita.com/gnbrganchan/items/616f3701b1169e834565#multiset
+bit演算
+//https://qiita.com/drken/items/7c6ff2aa4d8fce1c9361
 
 ll gcd(ll a,ll b){
 if(a<b) swap(a,b);
@@ -112,6 +116,11 @@ for(it = mp.begin(); it!=mp.end(); it++){
     int n2=it->second;
     cout<<n2<<endl;
 }
+for(auto now:mp){
+  ll n1=now.first;
+  ll n2=now.second;
+}
+
 
 ll cb(ll n,ll r){
   ll ret=0;
@@ -128,6 +137,9 @@ sort(t,t+nt,greater<char>());
 stringstream ss;
 ss << bitset<8>(9);
 string s = ss.str(); //00001001
+//下記の方が速いかも
+bitset<64> ss(N);
+string s=ss.to_string();
 
 struct s {int x; int y;};
 bool cmp(const s &a, const s &b){
@@ -156,6 +168,9 @@ ll mod_inverse(ll a) {
 
 lower_bound(a,a+n,k) a>=kとなる最小のインデックス
 upper_bound(a,a+n,k) a>kとなる最小のインデックス
+//pairをやるとき
+upper_bound(all(v), make_pair(u, INF));  //∞
+lower_bound(all(v), make_pair(l, -INF)); //マイナス∞
 
 //Xの桁和
 ll digit(ll x){
@@ -235,7 +250,8 @@ ll keta(ll n){
   return ret;
 }
 
-//permutation
+//permutation　
+//sortされた配列
 ll array[]={1,2,3,4};
 do{
    for(int i=0; i<4; i++){
@@ -310,4 +326,25 @@ ll string_mod(string s, ll mod){
         rest = (rest*10 + v) % mod;
     }
     return rest;
+}
+
+// 最長増加部分列の長さを求める
+/*
+vector<ll> a;
+LIS(a)みたいにつかう　
+*/
+int LIS(const vector<long long> &a) {
+    int N = (int)a.size();
+    vector<long long> dp(N, INF);
+    for (int i = 0; i < N; ++i) {
+        // dp[k] >= a[i] となる最小のイテレータを見つける
+        auto it = lower_bound(dp.begin(), dp.end(), a[i]);
+ 
+        // そこを a[i] で書き換える
+        *it = a[i];
+    }
+ 
+    // dp[k] < INF となる最大の k に対して k+1 が答え
+    // それは dp[k] >= INF となる最小の k に一致する
+    return lower_bound(dp.begin(), dp.end(), INF) - dp.begin();
 }
