@@ -35,4 +35,16 @@ long double angle(ld dx,ld dy){
   return radian;
 }
 
+//ベクトル(dx,dy)を反時計回りにsitaだけ回転
+// PPをldに　桁指定も
+  auto rotate=[&](ld dx,ld dy,ld sita){
+    ld Sita=sita*M_PI/180.0;
+    ld rotate_dx=dx*cos(Sita)-dy*sin(Sita);
+    ld rotate_dy=dy*cos(Sita)+dx*sin(Sita);
+    PP ret=PP{rotate_dx,rotate_dy};
+    return ret;
+  };
+  PP VEC=rotate(1,0,90);
+  cout << fixed << setprecision(10);
+
  
