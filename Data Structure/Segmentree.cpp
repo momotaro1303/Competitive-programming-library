@@ -1,28 +1,46 @@
 //セグメント木
-/*addは[a,b)にxを加算する sumは[a,b)の和を計算する
-add(a,b,x,0,0,N) sum(a,b,0,0,N)のように呼ぶ　
-初期化for(ll i=0; i<N; i++) add(i,i+1,A[i],0,0,N); を忘れずに!
-どちらもO(logn)
+/* RMQ：[0,n-1] について、区間ごとの最小値/最大値を管理する構造体
+    update(i,x): i 番目の要素を x に更新。O(log(n))
+    query(a,b): [a,b) での最小/最大の要素を取得。O(log(n))
+    RMQ<ll> rmq(要素数)のように宣言
+    rmq.update(i,x)
+    rmq.query(a,b)のように使う
 */
-const ll max_n=1<<17;
-ll dat1[2*max_n-1],dat2[2*max_n-1];
-void add(ll a,ll b,ll x,ll k,ll l,ll r){
-    if(a<=l&&r<=b){
-        dat1[k]+=x;
+template <typename T>
+struct RMQ {
+    const T INF = numeric_limits<T>::max();
+    int n;         // 葉の数
+    vector<T> dat; // 完全二分木の配列
+    RMQ(int n_) : n(), dat(n_ * 4, INF){ 
+        //葉の数は2^xの形 
+        //初期値に注意!-INF,0,INFのどれにするか？など
+        int x = 1;
+        while (n_ > x) {
+            x *= 2;
+        }
+        n = x;
     }
-    else if(l<b&&a<r){
-        dat2[k]+=(min(b,r)-max(a,l))*x;
-        add(a,b,x,k*2+1,l,(l+r)/2);
-        add(a,b,x,k*2+2,(l+r)/2,r);
+
+    void update(int i, T x) {
+        i += n - 1;
+        dat[i] = x;
+        while (i > 0) {
+            i = (i - 1) / 2;  // parent
+            dat[i] = min(dat[i * 2 + 1], dat[i * 2 + 2]);//最大値ならmax
+        }
     }
-}
-ll sum(ll a,ll b,ll k,ll l,ll r){
-    if(b<=l||r<=a) return 0;
-    else if(a<=l&&r<=b) return dat1[k]*(r-l)+dat2[k];
-    else{
-        ll res=(min(b,r)-max(a,l))*dat1[k];
-        res+=sum(a,b,k*2+1,l,(l+r)/2);
-        res+=sum(a,b,k*2+2,(l+r)/2,r);
-        return res;
+
+    // the minimum/maximum element of [a,b)
+    T query(int a, int b) { return query_sub(a, b, 0, 0, n); }
+    T query_sub(int a, int b, int k, int l, int r) {
+        if (r <= a || b <= l) {
+            return INF; //最大値なら-INF
+        } else if (a <= l && r <= b) {
+            return dat[k];
+        } else {
+            T vl = query_sub(a, b, k * 2 + 1, l, (l + r) / 2);
+            T vr = query_sub(a, b, k * 2 + 2, (l + r) / 2, r);
+            return min(vl, vr);//最大値ならmax
+        }
     }
-}
+};
