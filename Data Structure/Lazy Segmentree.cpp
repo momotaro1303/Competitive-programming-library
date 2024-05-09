@@ -1,16 +1,13 @@
-/* range_minimum_query_RAQ.cpp
-    遅延評価セグメント木によって、区間での最小要素を管理する。区間加算型(RAQ)
-    Range Add Query
-
-    verified: AOJ DSL_2_H RMQ and RAQ
-        http://judge.u-aizu.ac.jp/onlinejudge/description.jsp?id=DSL_2_H&lang=ja
- */
+//遅延評価セグメント木
 /* RMQ：[0,n-1] について、区間ごとの最小値を管理する構造体
     set(i,x), build(): i番目の要素をxにセット。まとめてセグ木を構築する。O(n)
     add(a,b,x): 区間[a,b) の要素に x を加算。O(log(n))
+    update(a,b,x): 区間[a,b) の要素を x に更新。O(log(n))
     query(a,b): 区間 [a,b) での最小の要素を取得。O(log(n))
     find_rightest(a,b,x): [a,b) で x以下の要素を持つ最右位置を求める。O(log(n))
     find_leftest(a,b,x): [a,b) で x以下の要素を持つ最左位置を求める。O(log(n))
+    RMQ<ll> rmq(N);
+    rmq.set(n,0);rmq.build();のように使う。
 */
 template <typename T>
 struct RMQ {
@@ -32,11 +29,11 @@ struct RMQ {
     void eval(int k) {
         if (lazy[k] == 0) return;  // 更新するものが無ければ終了
         if (k < n - 1) {           // 葉でなければ子に伝搬
-            lazy[k * 2 + 1] += lazy[k];
-            lazy[k * 2 + 2] += lazy[k];
+            lazy[k * 2 + 1] += lazy[k];//区間更新なら=lazy[k]
+            lazy[k * 2 + 2] += lazy[k];//区間更新なら=lazy[k]
         }
         // 自身を更新
-        dat[k] += lazy[k];
+        dat[k] += lazy[k];//区間更新なら=lazy[k]
         lazy[k] = 0;
     }
 
@@ -52,6 +49,19 @@ struct RMQ {
         }
     }
     void add(int a, int b, T x) { add(a, b, x, 0, 0, n); }
+
+    void update(int a, int b, T x, int k, int l, int r) {
+        eval(k);
+        if (a <= l && r <= b) {  // 完全に内側の時
+            lazy[k] = x;
+            eval(k);
+        } else if (a < r && l < b) {                     // 一部区間が被る時
+            update(a, b, x, k * 2 + 1, l, (l + r) / 2);  // 左の子
+            update(a, b, x, k * 2 + 2, (l + r) / 2, r);  // 右の子
+            dat[k] = min(dat[k * 2 + 1], dat[k * 2 + 2]);
+        }
+    }
+    void update(int a, int b, T x) { update(a, b, x, 0, 0, n); }
 
     T query_sub(int a, int b, int k, int l, int r) {
         eval(k);
