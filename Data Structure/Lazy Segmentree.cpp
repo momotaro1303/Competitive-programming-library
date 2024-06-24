@@ -1,13 +1,15 @@
 //遅延評価セグメント木
 /* RMQ：[0,n-1] について、区間ごとの最小値を管理する構造体
     set(i,x), build(): i番目の要素をxにセット。まとめてセグ木を構築する。O(n)
-    add(a,b,x): 区間[a,b) の要素に x を加算。O(log(n))
+    Add(a,b,x): 区間[a,b) の要素に x を加算。O(log(n))
     update(a,b,x): 区間[a,b) の要素を x に更新。O(log(n))
     query(a,b): 区間 [a,b) での最小の要素を取得。O(log(n))
     find_rightest(a,b,x): [a,b) で x以下の要素を持つ最右位置を求める。O(log(n))
     find_leftest(a,b,x): [a,b) で x以下の要素を持つ最左位置を求める。O(log(n))
     RMQ<ll> rmq(N);
-    rmq.set(n,0);rmq.build();のように使う。
+    rmq.set(n,0);
+    rmq.query(a,b);
+    rmq.build();のように使う。
 */
 template <typename T>
 struct RMQ {
@@ -37,19 +39,19 @@ struct RMQ {
         lazy[k] = 0;
     }
 
-    void add(int a, int b, T x, int k, int l, int r) {
+    void Add(int a, int b, T x, int k, int l, int r) {
         eval(k);
         if (a <= l && r <= b) {  // 完全に内側の時
             lazy[k] += x;
             eval(k);
         } else if (a < r && l < b) {                  // 一部区間が被る時
-            add(a, b, x, k * 2 + 1, l, (l + r) / 2);  // 左の子
-            add(a, b, x, k * 2 + 2, (l + r) / 2, r);  // 右の子
+            Add(a, b, x, k * 2 + 1, l, (l + r) / 2);  // 左の子
+            Add(a, b, x, k * 2 + 2, (l + r) / 2, r);  // 右の子
             dat[k] = min(dat[k * 2 + 1], dat[k * 2 + 2]);
         }
     }
-    void add(int a, int b, T x) { add(a, b, x, 0, 0, n); }
-
+    void Add(int a, int b, T x) { Add(a, b, x, 0, 0, n); }
+    
     void update(int a, int b, T x, int k, int l, int r) {
         eval(k);
         if (a <= l && r <= b) {  // 完全に内側の時
@@ -62,7 +64,7 @@ struct RMQ {
         }
     }
     void update(int a, int b, T x) { update(a, b, x, 0, 0, n); }
-
+    
     T query_sub(int a, int b, int k, int l, int r) {
         eval(k);
         if (r <= a || b <= l) {  // 完全に外側の時
