@@ -7,9 +7,9 @@
     find_rightest(a,b,x): [a,b) で x以下の要素を持つ最右位置を求める。O(log(n))
     find_leftest(a,b,x): [a,b) で x以下の要素を持つ最左位置を求める。O(log(n))
     RMQ<ll> rmq(N);
-    rmq.set(n,0);
+    rep(n,N) rmq.set(n,0);
+    rmq.build();
     rmq.query(a,b);
-    rmq.build();のように使う。
 */
 template <typename T>
 struct RMQ {
