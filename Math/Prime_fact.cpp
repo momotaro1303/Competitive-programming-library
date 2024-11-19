@@ -1,6 +1,6 @@
 //素因数分解
 /*
-クエリ　(O(rるるるルルルルルルルルルルルルルルルルるるあ))
+クエリ　O(√n)
 map<ll, ll> prime = prime_fact(M)のように宣言
 for (auto itr : prime) {
   ll n1=itr.first;
