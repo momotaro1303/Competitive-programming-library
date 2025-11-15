@@ -1,5 +1,6 @@
 //BinaryIndexedTree(Fenwick tree)
 /*
+区間和を求めたいときに
 BinaryIndexedTree<ll> bit(N);
 bit.add(i,x) O(logN)
 bit.range_sum(l,r) O(logN)
