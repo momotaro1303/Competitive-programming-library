@@ -1,6 +1,7 @@
 //BinaryIndexedTree(Fenwick tree)
 /*
-区間和を求めたいときに
+区間和・一点加算
+テンプレのaddをコメントアウトして！
 BinaryIndexedTree<ll> bit(N);
 bit.add(i,x) O(logN)
 bit.range_sum(l,r) O(logN)
