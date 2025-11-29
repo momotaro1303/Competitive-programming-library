@@ -1,10 +1,9 @@
 //二次元累積和
 /*
-前計算O(HW) クエリO(1) 0オリジン
-vector<vector<ll>> grid(H,vector<ll>(W,0));
-vector<vector<ll>> S;
-pre_process(grid,S);
-query(h1,h2,w1,w2,S)で呼ぶ
+vector<vector<ll>> grid(H,vector<ll>(W,0));(0オリジン)
+vector<vector<ll>> S;(1オリジン)
+pre_process(grid,S); O(HW)
+query(h1,h2,w1,w2,S); O(1) 
 */
 // 前処理を行う
 void pre_process(vector<vector<ll>> const &a, vector<vector<ll>> &S) {
@@ -17,7 +16,7 @@ void pre_process(vector<vector<ll>> const &a, vector<vector<ll>> &S) {
         }
     }
 }
-// [h1,h2)×[w1,w2) の区間和を求める
+// (h1,h2]×(w1,w2]の区間和を求める
 int query(int h1, int h2, int w1, int w2, vector<vector<ll>> const &S) {
     return S[h2][w2] - S[h1][w2] - S[h2][w1] + S[h1][w1];
 }
